@@ -13,11 +13,9 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
           ),
           'status_id' => array(
             'title' => ts('Status'),
-            'default' => TRUE,
           ),
           'role_id' => array(
             'title' => ts('Role'),
-            'default' => TRUE,
           ),
           'source' => array(
             'title' => ts('Source'),
@@ -98,6 +96,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
           ),
           'display_name' => array(
             'title' => ts('Display Name'),
+            'default' => TRUE,
           ),
           'sort_name' => array(
             'title' => ts('Sort Name'),
@@ -154,7 +153,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     $price_field_columns['civicrm_line_item'] = array(
       'alias' => 'li',
       'grouping' => 'price-fields',
-      'group_title' => 'Price Fields',
+      'group_title' => 'Price Fields (All)',
       'fields' => array(
       ),
     );
@@ -199,7 +198,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     $price_field_columns['civicrm_line_item_merged'] = array(
       'alias' => 'limerged',
       'grouping' => 'price-fields-merged',
-      'group_title' => ts('Like-named Price Fields'),
+      'group_title' => ts('Price Fields (Merged by Label)'),
       'fields' => array(
       ),
     );
@@ -310,7 +309,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
 
     $value = $row[$rowId];
     if ($value) {
-      $rows[$rowNum][$rowId] = $types[$value];
+      $rows[$rowNum][$rowId] = CRM_Utils_Array::value($value, $types);
     }
     $entryFound = TRUE;
   }
