@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<extension key="com.joineryhq.licolreport" type="report">
+  <file>licolreport</file>
+  <name>Line Item Columns Report</name>
+  <description>Provides report templates for displaying line items as columns</description>
+  <license>GPL-3.0</license>
+  <maintainer>
+    <author>Allen Shaw</author>
+    <email>allen@joineryhq.com</email>
+  </maintainer>
+  <releaseDate>2016-11-16</releaseDate>
+  <version>1.2</version>
+  <urls>
+    <url desc="Documentation">https://github.com/twomice/com.joineryhq.licolreport</url>
+    <url desc="Support">https://github.com/twomice/com.joineryhq.licolreport/issues</url>
+  </urls>
+  <compatibility>
+    <ver>4.7</ver>
+  </compatibility>
+  <comments>Extension development sponsored by Ohio Society of Radiologic Technologists (http://osrt.org).</comments>
+  <typeInfo>
+    <component>CiviContribute</component>
+    <reportUrl>com.joineryhq.licolreport</reportUrl>
+  </typeInfo>
+</extension>
