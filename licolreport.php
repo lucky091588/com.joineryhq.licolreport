@@ -108,7 +108,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
             'title' => ts('Prefix'),
           ),
           'suffix_id' => array(
-            'title' => ts('Suffix'),
+            'title' => ts('Individual Suffix'),
           ),
           'external_identifier' => array(
             'title' => ts('External ID'),
