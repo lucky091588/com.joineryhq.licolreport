@@ -128,8 +128,8 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
         'order_bys' => array(
           'sort_name' => array(
             'title' => ts('Sort Name'),
-            'default_weight' => '1',
-            'default_order' => 'ASC',
+//            'default_weight' => '1',
+//            'default_order' => 'ASC',
           ),
         ),
       ),
