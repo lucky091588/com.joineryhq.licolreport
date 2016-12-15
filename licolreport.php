@@ -125,6 +125,13 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
             'no_display' => TRUE,
           ),
         ),
+        'order_bys' => array(
+          'sort_name' => array(
+            'title' => ts('Sort Name'),
+            'default_weight' => '1',
+            'default_order' => 'ASC',
+          ),
+        ),
       ),
       'civicrm_email' => array(
         'grouping' => 'contact-fields',
@@ -327,6 +334,8 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     $entryFound = FALSE;
     $participant_status = CRM_Event_PseudoConstant::participantStatus(NULL, FALSE, 'label');
     $participant_role = CRM_Event_PseudoConstant::participantRole();
+    $suffix = CRM_Core_PseudoConstant::get('CRM_Contact_DAO_Contact', 'suffix_id');
+    $prefix = CRM_Core_PseudoConstant::get('CRM_Contact_DAO_Contact', 'prefix_id');
 
     foreach ($rows as $rowNum => $row) {
 
@@ -336,31 +345,36 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
       // handle participant role id
       $this->_initBasicRow($rows, $entryFound, $row, 'civicrm_participant_role_id', $rowNum, $participant_role);
 
+      // handle suffix_id
+      $this->_initBasicRow($rows, $entryFound, $row, 'civicrm_contact_suffix_id', $rowNum, $suffix);
+
+      // handle prefix_id
+      $this->_initBasicRow($rows, $entryFound, $row, 'civicrm_contact_prefix_id', $rowNum, $prefix);
+
       // Convert display name to link
-      $displayName = CRM_Utils_Array::value('civicrm_contact_sort_name_linked', $row);
-      $cid = CRM_Utils_Array::value('civicrm_contact_id', $row);
-      $id = CRM_Utils_Array::value('civicrm_participant_participant_id', $row);
+      if ($this->_outputMode !== 'csv') {
+        $displayName = CRM_Utils_Array::value('civicrm_contact_display_name', $row);
+        $cid = CRM_Utils_Array::value('civicrm_contact_id', $row);
+        $id = CRM_Utils_Array::value('civicrm_participant_participant_id', $row);
 
-      if ($displayName && $cid && $id) {
-        $url = CRM_Report_Utils_Report::getNextUrl('contact/detail',
-          "reset=1&force=1&id_op=eq&id_value=$cid",
-          $this->_absoluteUrl, $this->_id, $this->_drilldownReport
-        );
+        if ($displayName && $cid && $id) {
+          $url = CRM_Utils_System::url('civicrm/contact/view/',
+            "reset=1&cid=$cid"
+          );
 
-        $viewUrl = CRM_Utils_System::url("civicrm/contact/view/participant",
-          "reset=1&id=$id&cid=$cid&action=view&context=participant"
-        );
+          $viewUrl = CRM_Utils_System::url("civicrm/contact/view/participant",
+            "reset=1&id=$id&cid=$cid&action=view&context=participant"
+          );
 
-        $contactTitle = ts('View Contact Details');
-        $participantTitle = ts('View Participant Record');
+          $contactTitle = ts('View Contact Details');
+          $participantTitle = ts('View Participant Record');
 
-        $rows[$rowNum]['civicrm_contact_sort_name_linked'] = "<a title='$contactTitle' href=$url>$displayName</a>";
-        if ($this->_outputMode !== 'csv') {
-          $rows[$rowNum]['civicrm_contact_sort_name_linked'] .=
+          $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='$contactTitle' href=$url>$displayName</a>";
+          $rows[$rowNum]['civicrm_contact_display_name'] .=
             "<span style='float: right;'><a title='$participantTitle' href=$viewUrl>" .
             ts('View') . "</a></span>";
+          $entryFound = TRUE;
         }
-        $entryFound = TRUE;
       }
 
       $entryFound = $this->alterDisplayAddressFields($row, $rows, $rowNum, NULL, NULL) ? TRUE : $entryFound;
