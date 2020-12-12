@@ -8,27 +8,27 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
       'civicrm_participant' => array(
         'fields' => array(
           'participant_id' => array(
-            'title' => ts('Participant ID'),
+            'title' => E::ts('Participant ID'),
             'name' => 'id',
           ),
           'status_id' => array(
-            'title' => ts('Status'),
+            'title' => E::ts('Status'),
           ),
           'role_id' => array(
-            'title' => ts('Role'),
+            'title' => E::ts('Role'),
           ),
           'source' => array(
-            'title' => ts('Source'),
+            'title' => E::ts('Source'),
           ),
           'register_date' => array(
-            'title' => ts('Registration Date')
+            'title' => E::ts('Registration Date')
           ),
         ),
         'grouping' => 'event-fields',
         'filters' => array(
           'event_id' => array(
             'name' => 'event_id',
-            'title' => ts('Event'),
+            'title' => E::ts('Event'),
             'operatorType' => CRM_Report_Form::OP_ENTITYREF,
             'type' => CRM_Utils_Type::T_INT,
             'attributes' => array(
@@ -38,48 +38,48 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
           ),
           'sid' => array(
             'name' => 'status_id',
-            'title' => ts('Participant Status'),
+            'title' => E::ts('Participant Status'),
             'type' => CRM_Utils_Type::T_INT,
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => CRM_Event_PseudoConstant::participantStatus(NULL, NULL, 'label'),
           ),
           'rid' => array(
             'name' => 'role_id',
-            'title' => ts('Participant Role'),
+            'title' => E::ts('Participant Role'),
             'type' => CRM_Utils_Type::T_INT,
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => CRM_Event_PseudoConstant::participantRole(),
           ),
           'participant_register_date' => array(
-            'title' => ts('Registration Date'),
+            'title' => E::ts('Registration Date'),
             'operatorType' => CRM_Report_Form::OP_DATE,
           ),
           'fee_currency' => array(
-            'title' => ts('Fee Currency'),
+            'title' => E::ts('Fee Currency'),
             'operatorType' => CRM_Report_Form::OP_MULTISELECT,
             'options' => CRM_Core_OptionGroup::values('currencies_enabled'),
             'default' => NULL,
             'type' => CRM_Utils_Type::T_STRING,
           ),
           'registered_by_id' => array(
-            'title' => ts('Registered by Participant ID'),
+            'title' => E::ts('Registered by Participant ID'),
             'type' => CRM_Utils_Type::T_STRING,
             'operator' => 'like',
           ),
           'source' => array(
-            'title' => ts('Source'),
+            'title' => E::ts('Source'),
             'type' => CRM_Utils_Type::T_STRING,
             'operator' => 'like',
           ),
         ),
         'order_bys' => array(
           'participant_register_date' => array(
-            'title' => ts('Registration Date'),
+            'title' => E::ts('Registration Date'),
             'default_weight' => '1',
             'default_order' => 'ASC',
           ),
           'event_id' => array(
-            'title' => ts('Event'),
+            'title' => E::ts('Event'),
             'default_weight' => '1',
             'default_order' => 'ASC',
           ),
@@ -89,36 +89,36 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
         'grouping' => 'contact-fields',
         'fields' => array(
           'first_name' => array(
-            'title' => ts('First Name'),
+            'title' => E::ts('First Name'),
           ),
           'last_name' => array(
-            'title' => ts('Last Name'),
+            'title' => E::ts('Last Name'),
           ),
           'display_name' => array(
-            'title' => ts('Display Name'),
+            'title' => E::ts('Display Name'),
             'default' => TRUE,
           ),
           'sort_name' => array(
-            'title' => ts('Sort Name'),
+            'title' => E::ts('Sort Name'),
           ),
           'contact_type' => array(
-            'title' => ts('Contact Type'),
+            'title' => E::ts('Contact Type'),
           ),
           'prefix_id' => array(
-            'title' => ts('Prefix'),
+            'title' => E::ts('Prefix'),
           ),
           'suffix_id' => array(
-            'title' => ts('Individual Suffix'),
+            'title' => E::ts('Individual Suffix'),
           ),
           'external_identifier' => array(
-            'title' => ts('External ID'),
+            'title' => E::ts('External ID'),
           ),
           'is_deceased' => array(
-            'title' => ts('Deceased'),
+            'title' => E::ts('Deceased'),
             'dbAlias' => "if(is_deceased, 'Yes', 'No')",
           ),
           'source' => array(
-            'title' => ts('Source'),
+            'title' => E::ts('Source'),
           ),
           'id' => array(
             'required' => TRUE,
@@ -127,7 +127,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
         ),
         'order_bys' => array(
           'sort_name' => array(
-            'title' => ts('Sort Name'),
+            'title' => E::ts('Sort Name'),
 //            'default_weight' => '1',
 //            'default_order' => 'ASC',
           ),
@@ -137,7 +137,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
         'grouping' => 'contact-fields',
         'fields' => array(
           'email' => array(
-            'title' => ts('Email'),
+            'title' => E::ts('Email'),
             'no_repeat' => TRUE,
           ),
         ),
@@ -205,7 +205,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     $price_field_columns['civicrm_line_item_merged'] = array(
       'alias' => 'limerged',
       'grouping' => 'price-fields-merged',
-      'group_title' => ts('Price Fields (Merged by Label)'),
+      'group_title' => E::ts('Price Fields (Merged by Label)'),
       'fields' => array(
       ),
     );
@@ -242,7 +242,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     $dao = CRM_Core_DAO::executeQuery($sql);
     while ($dao->fetch()) {
       $title_parts = array(
-        ts('Merged'),
+        E::ts('Merged'),
         $dao->price_field_label
       );
       if ($dao->html_type != 'Text') {
@@ -366,13 +366,13 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
             "reset=1&id=$id&cid=$cid&action=view&context=participant"
           );
 
-          $contactTitle = ts('View Contact Details');
-          $participantTitle = ts('View Participant Record');
+          $contactTitle = E::ts('View Contact Details');
+          $participantTitle = E::ts('View Participant Record');
 
           $rows[$rowNum]['civicrm_contact_display_name'] = "<a title='$contactTitle' href=$url>$displayName</a>";
           $rows[$rowNum]['civicrm_contact_display_name'] .=
             "<span style='float: right;'><a title='$participantTitle' href=$viewUrl>" .
-            ts('View') . "</a></span>";
+            E::ts('View') . "</a></span>";
           $entryFound = TRUE;
         }
       }
