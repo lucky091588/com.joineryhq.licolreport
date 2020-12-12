@@ -3,7 +3,7 @@
 class com_joineryhq_licolreport extends CRM_Report_Form {
   var $_debug = FALSE;
 
-  function __construct() {
+  public function __construct() {
     $this->_columns = array(
       'civicrm_participant' => array(
         'fields' => array(
@@ -21,7 +21,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
             'title' => E::ts('Source'),
           ),
           'register_date' => array(
-            'title' => E::ts('Registration Date')
+            'title' => E::ts('Registration Date'),
           ),
         ),
         'grouping' => 'event-fields',
@@ -128,8 +128,8 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
         'order_bys' => array(
           'sort_name' => array(
             'title' => E::ts('Sort Name'),
-//            'default_weight' => '1',
-//            'default_order' => 'ASC',
+            // 'default_weight' => '1',
+            // 'default_order' => 'ASC',
           ),
         ),
       ),
@@ -145,24 +145,21 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     );
     $this->_columns += $this->getAddressColumns();
 
-    $this->_customGroupExtends = array( 'Contact', 'Individual',  'Participant');
+    $this->_customGroupExtends = array('Contact', 'Individual',  'Participant');
     $this->_groupFilter = TRUE;
     $this->_tagFilter = TRUE;
 
     parent::__construct();
-    
     $this->_columns += $this->_getPriceFieldColumns();
   }
 
-  function _getPriceFieldColumns() {
-    
+  public function _getPriceFieldColumns() {
     $price_field_columns = array();
     $price_field_columns['civicrm_line_item'] = array(
       'alias' => 'li',
       'grouping' => 'price-fields',
       'group_title' => 'Price Fields (All)',
-      'fields' => array(
-      ),
+      'fields' => array(),
     );
 
     $sql = "
@@ -191,12 +188,12 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     while ($dao->fetch()) {
       $title_parts = array(
         $dao->price_set_label,
-        $dao->price_field_label
+        $dao->price_field_label,
       );
       if ($dao->html_type != 'Text') {
         $title_parts[] = $dao->price_field_value_label;
       }
-      $price_field_columns['civicrm_line_item']['fields']['pfv_'. $dao->price_field_value_id] = array(
+      $price_field_columns['civicrm_line_item']['fields']['pfv_' . $dao->price_field_value_id] = array(
         'title' => implode(': ', $title_parts),
         'dbAlias' => "floor(sum(if(li_civireport.price_field_value_id = {$dao->price_field_value_id}, li_civireport.qty, 0)))",
       );
@@ -206,11 +203,9 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
       'alias' => 'limerged',
       'grouping' => 'price-fields-merged',
       'group_title' => E::ts('Price Fields (Merged by Label)'),
-      'fields' => array(
-      ),
+      'fields' => array(),
     );
-//    return $price_field_columns;
-
+    // return $price_field_columns;
 
     $sql = "
       SELECT
@@ -243,12 +238,12 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     while ($dao->fetch()) {
       $title_parts = array(
         E::ts('Merged'),
-        $dao->price_field_label
+        $dao->price_field_label,
       );
       if ($dao->html_type != 'Text') {
         $title_parts[] = $dao->price_field_value_label;
       }
-      $field_alias = 'pfvs_'. str_replace(',', '_', $dao->price_field_value_ids);
+      $field_alias = 'pfvs_' . str_replace(',', '_', $dao->price_field_value_ids);
       $price_field_columns['civicrm_line_item_merged']['fields'][$field_alias] = array(
         'title' => implode(': ', $title_parts),
         'dbAlias' => "floor(sum(if(li_civireport.price_field_value_id IN ({$dao->price_field_value_ids}), li_civireport.qty, 0)))",
@@ -261,7 +256,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
   /**
    * Overrides parent::from().
    */
-  function from() {
+  public function from() {
     $this->_from = "
       FROM
         civicrm_contact {$this->_aliases['civicrm_contact']} {$this->_aclFrom}
@@ -281,7 +276,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
             AND {$this->_aliases['civicrm_address']}.is_primary
       ";
     }
-    
+
     if ($this->isTableSelected('civicrm_email')) {
       $this->_from .= "
         LEFT JOIN civicrm_email {$this->_aliases['civicrm_email']}
@@ -390,7 +385,7 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
   /**
    * Overrides parent::groupBy().
    */
-  function groupBy() {
+  public function groupBy() {
     parent::groupBy();
 
     if (empty($groupBys)) {
@@ -402,11 +397,10 @@ class com_joineryhq_licolreport extends CRM_Report_Form {
     $this->_groupBy .= " {$this->_aliases['civicrm_contact']}.id";
   }
 
-
   /**
    * Debug logger. If $this->_debug is TRUE, send $var to dsm() with label $label.
    */
-  function _debugDsm($var, $label = NULL) {
+  public function _debugDsm($var, $label = NULL) {
     if ($this->_debug && function_exists('dsm')) {
       dsm($var, $label);
     }
